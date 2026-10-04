@@ -1,0 +1,36 @@
+# Dependencies and build output
+node_modules/
+dist/
+.astro/
+.netlify/
+
+# Local-only material: reference screenshots and tool settings
+reference/
+.claude/
+
+# Environment files (may contain secrets)
+.env
+.env.*
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Editor and temporary files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.tmp
+*.bak

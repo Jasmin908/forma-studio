@@ -1,0 +1,11 @@
+---
+// Shown by Netlify after a successful submission when JavaScript is unavailable.
+import SimplePage from '../../components/SimplePage.astro';
+import { useT } from '../../i18n';
+
+const t = useT('en');
+---
+
+<SimplePage lang="en" route="thanks" title={t.thanks.title}>
+  <p>{t.thanks.text}</p>
+</SimplePage>

@@ -1,0 +1,182 @@
+---
+import { useT, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const t = useT(Astro.props.lang);
+const groups = (['new', 'existing'] as const).map((key) => ({
+  label: t.pricing.groups[key],
+  items: t.services.items.filter((item) => item.group === key),
+}));
+---
+
+<section class="section" id="pricing">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="eyebrow">{t.pricing.eyebrow}</p>
+      <h2 class="section-title">{t.pricing.title}</h2>
+      <p class="lead">{t.pricing.lead}</p>
+    </header>
+
+    <div class="layout">
+      <div class="fees reveal">
+        {
+          groups.map((group) => (
+            <div class="group">
+              <h3 class="label">{group.label}</h3>
+              <ul>
+                {group.items.map((item) => (
+                  <li class="row">
+                    <span class="row__name">{item.name}</span>
+                    <span class="row__price">{item.price}</span>
+                    {/* data-service preselects this service in the contact form. */}
+                    <a class="arrow-link row__link" href="#contact" data-service={item.name}>
+                      {t.pricing.inquire}
+                      <span class="sr-only">: {item.name}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+        <p class="fees__note">{t.pricing.note}</p>
+        <a class="btn btn--primary" href="#contact">{t.pricing.cta} <span aria-hidden="true">→</span></a>
+      </div>
+
+      <aside class="third reveal" style="--i:1">
+        <p class="label">{t.pricing.thirdLabel}</p>
+        <h3 class="third__title">{t.pricing.thirdTitle}</h3>
+        <ul class="third__list">
+          {t.pricing.thirdPoints.map((point) => <li>{point}</li>)}
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .layout {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    align-items: start;
+    gap: 1.5rem;
+  }
+
+  .fees,
+  .third {
+    padding: clamp(1.5rem, 3.5vw, 2.5rem);
+    border-radius: var(--radius-l);
+  }
+
+  .fees {
+    background: var(--surface);
+    border: 1px solid var(--line);
+  }
+
+  .group + .group {
+    margin-top: 2rem;
+  }
+
+  .label {
+    margin-bottom: 0.75rem;
+    color: var(--muted);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: baseline;
+    gap: 0.25rem 1.75rem;
+    padding-block: 1rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .row__name {
+    font-size: clamp(1.0625rem, 1.8vw, 1.3125rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .row__price {
+    color: var(--text);
+    font-size: clamp(1.0625rem, 1.8vw, 1.3125rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+
+  .row__link {
+    font-size: 0.9375rem;
+    white-space: nowrap;
+  }
+
+  .fees__note {
+    margin-block: 0 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+
+  .third {
+    border: 1px dashed var(--line-strong);
+  }
+
+  .third__title {
+    margin-bottom: 1.25rem;
+    font-size: 1.625rem;
+    letter-spacing: -0.03em;
+  }
+
+  .third__list {
+    display: grid;
+    gap: 0.9rem;
+    color: var(--muted);
+    font-size: 0.9875rem;
+  }
+
+  .third__list li {
+    position: relative;
+    padding-left: 1.5rem;
+  }
+
+  .third__list li::before {
+    content: '';
+    position: absolute;
+    top: 0.6em;
+    left: 0;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--teal);
+  }
+
+  @media (max-width: 900px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .row {
+      grid-template-columns: 1fr auto;
+    }
+
+    .row__name {
+      grid-column: 1 / -1;
+    }
+
+    .row__price {
+      text-align: left;
+    }
+  }
+</style>

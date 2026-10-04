@@ -1,0 +1,231 @@
+export const de = {
+  meta: {
+    title: 'Forma Studio – Webdesign für kleine Unternehmen in der Schweiz',
+    description:
+      'Moderne, professionelle und responsive Websites für kleine Unternehmen in der Schweiz. Persönlich umgesetzt, mit transparenten Einstiegspreisen.',
+  },
+  nav: {
+    label: 'Hauptnavigation',
+    logoLabel: 'Forma Studio – zum Seitenanfang',
+    menuOpen: 'Menü öffnen',
+    menuClose: 'Menü schliessen',
+    langLabel: 'Sprache',
+    langDe: 'Deutsch',
+    langEn: 'English',
+    skip: 'Zum Inhalt springen',
+    items: {
+      projects: 'Projekte',
+      services: 'Leistungen',
+      process: 'Prozess',
+      pricing: 'Preise',
+      contact: 'Kontakt',
+    },
+  },
+  hero: {
+    badge: 'Bereit für Projekte',
+    title: 'Websites für Firmen mit Ambitionen',
+    lead: 'Moderne, professionelle und responsive Websites für kleine Unternehmen in der Schweiz.',
+    ctaPrimary: 'Portfolio',
+    ctaSecondary: 'Kontakt',
+  },
+  projects: {
+    eyebrow: 'Projekte',
+    title: 'Ausgewählte Projekte',
+    lead: 'Ausgewählte Konzeptprojekte, die unterschiedliche Branchen, visuelle Stile und digitale Erlebnisse zeigen.',
+    concept: 'Konzeptprojekt',
+    view: 'Projekt ansehen',
+    soon: 'Demnächst',
+    previewSoon: 'Vorschau folgt',
+    newTab: 'öffnet in neuem Tab',
+    screenshotAlt: 'Screenshot der Demo-Website {title}',
+  },
+  about: {
+    eyebrow: 'Über Forma Studio',
+    title: 'Moderne Websites. Persönlich umgesetzt.',
+    paragraphs: [
+      'Forma Studio entwickelt moderne Websites für kleine Unternehmen, die professionell auftreten und online besser sichtbar sein möchten. Dabei stehen klares Design, eine einfache Benutzerführung und eine saubere Darstellung auf allen Geräten im Mittelpunkt.',
+      'Die Zusammenarbeit bleibt unkompliziert und direkt: von der ersten Idee über das Design bis zur fertigen Website gibt es eine feste Ansprechperson.',
+    ],
+    facts: [
+      { label: 'Standort', value: 'Schweiz · Remote' },
+      { label: 'Zusammenarbeit', value: 'Direkt & persönlich' },
+      { label: 'Fokus', value: 'Websites für kleine Unternehmen' },
+    ],
+  },
+  services: {
+    eyebrow: 'Dienstleistungen',
+    title: 'Leistungen im Überblick',
+    lead: 'Von der ersten eigenen Website bis zur Auffrischung eines bestehenden Auftritts.',
+    groups: { new: 'Neue Website', existing: 'Bestehende Website' },
+    pricingLink: 'Preise ansehen',
+    items: [
+      {
+        id: 'one-page',
+        group: 'new',
+        name: 'One-Page Website',
+        text: 'Eine moderne Website, auf der alle wichtigen Inhalte übersichtlich auf einer Seite präsentiert werden. Ideal für kleinere Unternehmen und kompakte Online-Auftritte.',
+        price: 'ab CHF 300',
+      },
+      {
+        id: 'multi-page',
+        group: 'new',
+        name: 'Multi-Page Website',
+        text: 'Eine umfangreichere Website mit mehreren individuell gestalteten Seiten – zum Beispiel für Leistungen, Projekte, Angebote und Kontakt.',
+        price: 'ab CHF 500',
+      },
+      {
+        id: 'redesign',
+        group: 'existing',
+        name: 'Website-Redesign',
+        text: 'Ein moderner Neustart für eine bestehende Website. Design, Struktur und Benutzerfreundlichkeit werden überarbeitet und an heutige Standards angepasst.',
+        price: 'ab CHF 250',
+      },
+      {
+        id: 'mobile',
+        group: 'existing',
+        name: 'Mobile Optimierung',
+        text: 'Optimierung einer bestehenden Website für Smartphone und Tablet – mit Fokus auf Layout, Navigation, Lesbarkeit und Bedienung.',
+        price: 'ab CHF 80',
+      },
+      {
+        id: 'care',
+        group: 'existing',
+        name: 'Pflege & Änderungen',
+        text: 'Unterstützung nach der Veröffentlichung, beispielsweise bei neuen Inhalten, Text- und Bildänderungen oder kleineren Anpassungen am Design.',
+        price: 'ab CHF 50 pro Auftrag',
+      },
+    ],
+  },
+  process: {
+    eyebrow: 'Der Ablauf',
+    title: 'In fünf Schritten zur Website',
+    lead: 'Ein klarer Ablauf, bei dem Sie jederzeit wissen, was als Nächstes passiert. Technisches Vorwissen ist nicht nötig.',
+    steps: [
+      {
+        name: 'Verständnis',
+        text: 'Ziele, Wünsche und Anforderungen werden gemeinsam geklärt – damit von Anfang an klar ist, was die Website erreichen soll.',
+      },
+      {
+        name: 'Planung',
+        text: 'Inhalte, Seiten und Struktur werden geplant, bevor die eigentliche Gestaltung beginnt.',
+      },
+      {
+        name: 'Design',
+        text: 'Auf Basis der Planung entsteht ein individuelles Design, das zum Unternehmen und zur Zielgruppe passt.',
+      },
+      {
+        name: 'Entwicklung',
+        text: 'Das Design wird als responsive Website umgesetzt und für Desktop, Tablet und Smartphone optimiert.',
+      },
+      {
+        name: 'Launch',
+        text: 'Nach der finalen Prüfung wird die Website veröffentlicht und ist bereit für Besucher.',
+      },
+    ],
+  },
+  why: {
+    eyebrow: 'Warum Forma Studio',
+    title: 'Warum Forma Studio',
+    lead: 'Persönliche Zusammenarbeit, klare Abläufe und moderne Lösungen für einen professionellen Webauftritt.',
+    items: [
+      {
+        name: 'Individuelles Design',
+        text: 'Keine Website von der Stange. Design und Aufbau werden passend zum Unternehmen, seinen Inhalten und Zielen entwickelt.',
+      },
+      {
+        name: 'Klare Kommunikation',
+        text: 'Verständliche und direkte Kommunikation während des gesamten Projekts – ohne unnötig komplizierte Fachbegriffe.',
+      },
+      {
+        name: 'Effiziente Umsetzung',
+        text: 'Moderne Tools und effiziente Arbeitsabläufe ermöglichen eine professionelle Umsetzung ohne unnötig komplizierte Prozesse.',
+      },
+      {
+        name: 'Direkte Zusammenarbeit',
+        text: 'Von der ersten Idee bis zur fertigen Website gibt es eine direkte Ansprechperson und kurze Kommunikationswege.',
+      },
+    ],
+  },
+  pricing: {
+    eyebrow: 'Preise',
+    title: 'Preise',
+    lead: 'Transparente Einstiegspreise für unterschiedliche Website-Projekte.',
+    groups: { new: 'Neue Websites', existing: 'Bestehende Websites' },
+    inquire: 'Anfragen',
+    note: 'Die endgültigen Kosten richten sich nach Umfang, Funktionen und Aufwand des jeweiligen Projekts.',
+    cta: 'Projekt anfragen',
+    thirdLabel: 'Nicht im Projektpreis enthalten',
+    thirdTitle: 'Domain & Hosting',
+    thirdPoints: [
+      'Domain und Hosting kaufen Sie selbst. Beides bleibt in Ihrem Besitz.',
+      'Diese laufenden Kosten sind nicht im Projektpreis enthalten.',
+      'Bei der Einrichtung erhalten Sie auf Wunsch Unterstützung.',
+    ],
+  },
+  contact: {
+    eyebrow: 'Kontakt',
+    title: 'Bereit für etwas Grosses?',
+    lead: 'Sie planen eine neue Website oder möchten Ihren bestehenden Webauftritt verbessern? Beschreiben Sie kurz Ihr Projekt – anschliessend melde ich mich per E-Mail bei Ihnen.',
+    emailLabel: 'Direkt per E-Mail',
+    locationLabel: 'Standort',
+    location: 'Schweiz · Remote',
+    form: {
+      legend: 'Projektanfrage',
+      requiredHint: 'Pflichtfelder sind mit * markiert.',
+      name: 'Name',
+      email: 'E-Mail',
+      company: 'Unternehmen',
+      optional: 'optional',
+      service: 'Gewünschte Leistung',
+      servicePlaceholder: 'Bitte auswählen',
+      serviceOther: 'Noch unklar / etwas anderes',
+      budget: 'Budgetrahmen',
+      budgetOptions: ['Noch offen', 'Unter CHF 500', "CHF 500–1'000", "CHF 1'000–2'000", "Über CHF 2'000"],
+      message: 'Projekt beschreiben',
+      messageHint: 'Worum geht es, und was soll die Website können?',
+      consent:
+        'Die Angaben dürfen zur Bearbeitung der Anfrage verwendet werden. Details stehen in der {link}.',
+      consentLink: 'Datenschutzerklärung',
+      honeypot: 'Dieses Feld bitte leer lassen',
+      submit: 'Anfrage senden',
+      sending: 'Wird gesendet …',
+      subject: 'Neue Projektanfrage über die Forma Studio Website',
+      errors: {
+        name: 'Bitte geben Sie Ihren Namen ein.',
+        email: 'Bitte geben Sie Ihre E-Mail-Adresse ein.',
+        emailInvalid: 'Bitte geben Sie eine gültige E-Mail-Adresse ein, zum Beispiel name@beispiel.ch.',
+        message: 'Bitte beschreiben Sie Ihr Projekt kurz.',
+        messageShort: 'Bitte beschreiben Sie Ihr Projekt in mindestens 10 Zeichen.',
+        consent: 'Bitte bestätigen Sie die Verwendung Ihrer Angaben.',
+        summary: 'Bitte prüfen Sie die markierten Felder.',
+        tooFast: 'Das ging sehr schnell. Bitte senden Sie die Anfrage in einem Moment noch einmal.',
+        failed:
+          'Die Anfrage konnte nicht gesendet werden. Bitte versuchen Sie es erneut oder schreiben Sie direkt an {email}.',
+        local:
+          'Lokale Vorschau: Die Eingaben sind gültig, es wurde aber nichts gesendet. Der Versand funktioniert erst nach der Veröffentlichung auf Netlify.',
+      },
+      successTitle: 'Vielen Dank, die Anfrage ist eingegangen.',
+      successText: 'Die Antwort kommt per E-Mail an die angegebene Adresse.',
+    },
+  },
+  thanks: {
+    title: 'Vielen Dank',
+    text: 'Die Anfrage ist eingegangen. Die Antwort kommt per E-Mail an die angegebene Adresse.',
+    back: 'Zurück zur Startseite',
+  },
+  footer: {
+    tagline: 'Moderne Websites für kleine Unternehmen.',
+    location: 'Schweiz · Remote',
+    navLabel: 'Fusszeile',
+    legalLabel: 'Rechtliches',
+    imprint: 'Impressum',
+    privacy: 'Datenschutz',
+  },
+  legal: {
+    draft:
+      'Entwurf: Diese Seite enthält Platzhalter und ist noch nicht für die Veröffentlichung freigegeben.',
+    back: 'Zurück zur Startseite',
+  },
+};
+
+export type Dictionary = typeof de;

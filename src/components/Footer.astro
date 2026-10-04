@@ -1,0 +1,145 @@
+---
+import Logo from './Logo.astro';
+import { useT, routes, footerSections, type Lang } from '../i18n';
+import { site } from '../data/site';
+
+interface Props {
+  lang: Lang;
+  home: boolean;
+}
+
+const { lang, home } = Astro.props;
+const t = useT(lang);
+const base = routes[lang].home;
+const link = (id: string) => (home ? `#${id}` : `${base}#${id}`);
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <a class="footer__logo" href={home ? '#top' : base} aria-label={t.nav.logoLabel}>
+        <Logo />
+      </a>
+      <p class="footer__tagline">{t.footer.tagline}</p>
+    </div>
+
+    <nav aria-label={t.footer.navLabel}>
+      <ul class="footer__links">
+        {
+          footerSections.map((id) => (
+            <li>
+              <a href={link(id)}>{t.nav.items[id]}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="footer__contact">
+      <p>{t.footer.location}</p>
+      <a class="footer__mail" href={`mailto:${site.email}`}>{site.email}</a>
+    </div>
+  </div>
+
+  <div class="container footer__base">
+    <p>© {year} {site.name}</p>
+    <nav aria-label={t.footer.legalLabel}>
+      <ul class="footer__legal">
+        <li><a href={routes[lang].imprint}>{t.footer.imprint}</a></li>
+        <li><a href={routes[lang].privacy}>{t.footer.privacy}</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+
+  .footer__grid {
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr 1fr;
+    gap: 2.5rem;
+    padding-block: 3rem 2.25rem;
+  }
+
+  .footer__brand,
+  .footer__contact {
+    display: grid;
+    gap: 0.75rem;
+    justify-items: start;
+    align-content: start;
+  }
+
+  .footer__logo {
+    color: var(--text);
+    text-decoration: none;
+    border-radius: 8px;
+  }
+
+  .footer__tagline {
+    max-width: 18rem;
+  }
+
+  .footer__mail {
+    color: var(--accent);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  .footer__mail:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .footer__links {
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .footer a:not(.footer__mail):not(.footer__logo) {
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer a:not(.footer__mail):not(.footer__logo):hover {
+    color: var(--text);
+  }
+
+  .footer__base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem 2rem;
+    padding-block: 1.25rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.875rem;
+  }
+
+  .footer__legal {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 760px) {
+    .footer__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .footer__brand {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .footer__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

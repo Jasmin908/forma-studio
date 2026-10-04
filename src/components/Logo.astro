@@ -1,0 +1,47 @@
+---
+// The logo. Set `logoSrc` in src/data/site.ts to use the original logo file.
+// Until then a text wordmark with a simple placeholder mark is shown.
+import { site } from '../data/site';
+---
+
+{
+  site.logoSrc ? (
+    <img class="logo-img" src={site.logoSrc} alt={site.name} width={site.logoWidth} height={site.logoHeight} decoding="async" />
+  ) : (
+    <span class="logo">
+      <span class="logo__mark" aria-hidden="true" />
+      <span class="logo__text">
+        Forma
+        <br />
+        Studio
+      </span>
+    </span>
+  )
+}
+
+<style>
+  .logo-img {
+    height: 2.5rem;
+    width: auto;
+  }
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .logo__mark {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 6px;
+    background: var(--blue);
+  }
+
+  .logo__text {
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+</style>

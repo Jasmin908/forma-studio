@@ -1,0 +1,38 @@
+---
+import SimplePage from '../../components/SimplePage.astro';
+import { site } from '../../data/site';
+---
+
+<SimplePage lang="en" route="imprint" title="Imprint">
+  <h2>Provider of this website</h2>
+  <p>
+    Forma Studio<br />
+    Web design<br />
+    Switzerland
+  </p>
+
+  <h2>Contact</h2>
+  <p>Email: <a href={`mailto:${site.email}`}>{site.email}</a></p>
+
+  <h2>About this website</h2>
+  <p>
+    This website is a portfolio and inquiry website. It presents concept projects, services and starting prices of Forma
+    Studio and allows visitors to get in touch through the contact form.
+  </p>
+  <p>
+    The website does not contain an online shop. Website projects cannot be purchased or concluded directly through the
+    website. The prices shown are starting prices; a specific offer is made individually after an inquiry.
+  </p>
+
+  <h2>Disclaimer</h2>
+  <p>
+    The content of this website is prepared with care. However, no guarantee is given for its accuracy, completeness or
+    currency. The operators of external websites linked from here are solely responsible for their content.
+  </p>
+
+  <h2>Copyright</h2>
+  <p>
+    The content and design of this website are protected by copyright. The concept projects shown in the portfolio are
+    self-initiated demo work for fictional businesses.
+  </p>
+</SimplePage>

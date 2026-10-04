@@ -1,0 +1,327 @@
+---
+import Logo from './Logo.astro';
+import { useT, routes, navSections, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  home: boolean;
+  alternates: { de: string; en: string };
+}
+
+const { lang, home, alternates } = Astro.props;
+const t = useT(lang);
+const base = routes[lang].home;
+const link = (id: string) => (home ? `#${id}` : `${base}#${id}`);
+---
+
+<header class="header" data-header>
+  <div class="header__bar">
+    <a class="header__logo" href={home ? '#top' : base} aria-label={t.nav.logoLabel}>
+      <Logo />
+    </a>
+
+    <nav class="header__nav" id="site-nav" aria-label={t.nav.label} data-nav>
+      <ul>
+        {
+          navSections.map((id) => (
+            <li>
+              <a href={link(id)} data-nav-link={id}>
+                {t.nav.items[id]}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="lang" role="group" aria-label={t.nav.langLabel}>
+      <a
+        href={alternates.de}
+        lang="de"
+        hreflang="de"
+        aria-current={lang === 'de' ? 'true' : undefined}
+        aria-label={t.nav.langDe}
+        data-lang-link>DE</a
+      >
+      <a
+        href={alternates.en}
+        lang="en"
+        hreflang="en"
+        aria-current={lang === 'en' ? 'true' : undefined}
+        aria-label={t.nav.langEn}
+        data-lang-link>EN</a
+      >
+    </div>
+
+    <button
+      class="header__toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      aria-label={t.nav.menuOpen}
+      data-nav-toggle
+      data-label-open={t.nav.menuOpen}
+      data-label-close={t.nav.menuClose}
+    >
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const nav = document.querySelector<HTMLElement>('[data-nav]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+
+  if (header && nav && toggle) {
+    const setOpen = (open: boolean) => {
+      header.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? toggle.dataset.labelClose! : toggle.dataset.labelOpen!);
+    };
+
+    toggle.addEventListener('click', () => setOpen(!header.classList.contains('is-open')));
+    nav.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('a')) setOpen(false);
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && header.classList.contains('is-open')) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+    document.addEventListener('click', (event) => {
+      if (!header.contains(event.target as Node)) setOpen(false);
+    });
+    window.matchMedia('(min-width: 861px)').addEventListener('change', () => setOpen(false));
+
+    // Highlight the section currently in view.
+    const links = new Map<string, HTMLElement>();
+    nav.querySelectorAll<HTMLElement>('[data-nav-link]').forEach((a) => links.set(a.dataset.navLink!, a));
+    const targets = [...links.keys()]
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (targets.length && 'IntersectionObserver' in window) {
+      const spy = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            links.forEach((a) => a.removeAttribute('aria-current'));
+            links.get(entry.target.id)?.setAttribute('aria-current', 'true');
+          }
+        },
+        { rootMargin: '-45% 0px -50% 0px' },
+      );
+      targets.forEach((el) => spy.observe(el));
+    }
+  }
+
+  // Keep the current section when switching language.
+  document.querySelectorAll<HTMLAnchorElement>('[data-lang-link]').forEach((a) => {
+    a.addEventListener('click', () => {
+      if (location.hash) a.href = a.pathname + location.hash;
+    });
+  });
+</script>
+
+<style>
+  .header {
+    position: fixed;
+    top: 0.75rem;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding-inline: var(--gutter);
+    pointer-events: none;
+  }
+
+  .header__bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: calc(var(--max) + 3rem);
+    min-height: var(--header-h);
+    margin-inline: auto;
+    padding: 0.375rem 0.625rem 0.375rem 1.125rem;
+    border: 1px solid var(--line);
+    border-radius: var(--pill);
+    background: rgba(20, 20, 23, 0.82);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    pointer-events: auto;
+  }
+
+  .header__logo {
+    display: inline-flex;
+    margin-right: auto;
+    text-decoration: none;
+    border-radius: 8px;
+  }
+
+  .header__nav ul {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .header__nav a {
+    display: block;
+    padding: 0.5rem 0.8rem;
+    border-radius: var(--pill);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    color: var(--muted);
+    transition:
+      color 0.2s,
+      background-color 0.2s;
+  }
+
+  .header__nav a:hover,
+  .header__nav a[aria-current='true'] {
+    color: var(--text);
+  }
+
+  .header__nav a[aria-current='true'] {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .lang {
+    display: flex;
+    padding: 0.2rem;
+    border: 1px solid var(--line);
+    border-radius: var(--pill);
+  }
+
+  .lang a {
+    min-width: 2.5rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: var(--pill);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-align: center;
+    text-decoration: none;
+    color: var(--muted);
+    transition:
+      color 0.2s,
+      background-color 0.2s;
+  }
+
+  .lang a:hover {
+    color: var(--text);
+  }
+
+  .lang a[aria-current='true'] {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  .header__toggle {
+    display: none;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .header__toggle span,
+  .header__toggle span::before,
+  .header__toggle span::after {
+    display: block;
+    width: 1.125rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--text);
+    transition:
+      transform 0.3s var(--ease),
+      background-color 0.2s;
+  }
+
+  .header__toggle span {
+    position: relative;
+  }
+
+  .header__toggle span::before,
+  .header__toggle span::after {
+    content: '';
+    position: absolute;
+    left: 0;
+  }
+
+  .header__toggle span::before {
+    transform: translateY(-6px);
+  }
+
+  .header__toggle span::after {
+    transform: translateY(6px);
+  }
+
+  .is-open .header__toggle span {
+    background: transparent;
+  }
+
+  .is-open .header__toggle span::before {
+    transform: rotate(45deg);
+  }
+
+  .is-open .header__toggle span::after {
+    transform: rotate(-45deg);
+  }
+
+  @media (max-width: 860px) {
+    .header__bar {
+      border-radius: 2rem;
+    }
+
+    .header__toggle {
+      display: grid;
+    }
+
+    .header__nav {
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      left: 0;
+      right: 0;
+      padding: 0.75rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-m);
+      background: rgba(20, 20, 23, 0.97);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition:
+        opacity 0.25s,
+        transform 0.3s var(--ease),
+        visibility 0.25s;
+    }
+
+    .is-open .header__nav {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+    }
+
+    .header__nav ul {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.125rem;
+    }
+
+    .header__nav a {
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-s);
+      font-size: 1.0625rem;
+      color: var(--text);
+    }
+  }
+</style>

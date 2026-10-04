@@ -1,0 +1,110 @@
+---
+import SimplePage from '../../components/SimplePage.astro';
+import { site } from '../../data/site';
+---
+
+<SimplePage lang="en" route="privacy" title="Privacy policy">
+  <p>
+    This privacy policy explains which personal data is processed when you visit this website and when you send an
+    inquiry through the contact form, for what purpose, and which rights you have.
+  </p>
+
+  <h2>Controller</h2>
+  <p>
+    Forma Studio<br />
+    Switzerland<br />
+    Email: <a href={`mailto:${site.email}`}>{site.email}</a>
+  </p>
+  <p>For any question about data protection, an email to this address is sufficient.</p>
+
+  <h2>Which data is processed</h2>
+  <ul>
+    <li>Details you provide yourself through the contact form or by email</li>
+    <li>Technical connection data that arises at the hosting provider when the website is accessed</li>
+  </ul>
+
+  <h2>Contact form</h2>
+  <p>When the contact form is submitted, the following details are transmitted:</p>
+  <ul>
+    <li>Name</li>
+    <li>Email address</li>
+    <li>Business (optional)</li>
+    <li>Service required (optional)</li>
+    <li>Budget range (optional)</li>
+    <li>Project description</li>
+    <li>Confirmation of consent and the language version of the website used</li>
+  </ul>
+  <p>
+    The details are transmitted through the form service of the hosting provider Netlify and stored there. If email
+    notifications are set up, submissions may additionally be forwarded to Forma Studio by email. Submissions are
+    checked automatically to protect against spam; Netlify uses the spam-filtering service Akismet for this.
+  </p>
+
+  <h2>Purpose of processing</h2>
+  <p>
+    The details from the contact form are used to process and answer your inquiry and, if a collaboration results from
+    it, to prepare and carry out the project. They are not used for advertising and are not sold.
+  </p>
+
+  <h2>Retention</h2>
+  <p>
+    Contact inquiries are retained only for as long as necessary to process the inquiry. If a business relationship
+    results from the inquiry, the data is retained for as long as necessary for that relationship and the applicable
+    legal retention obligations.
+  </p>
+
+  <h2>Hosting with Netlify</h2>
+  <p>
+    This website is hosted by Netlify, Inc. (USA). When the website is accessed, Netlify as the hosting provider
+    processes technically necessary connection data. This may include in particular the IP address, the date and time of
+    access, the page requested, and details of the browser and operating system. This data is required to operate and
+    secure the website.
+  </p>
+
+  <h2>Recipients and service providers</h2>
+  <p>Personal data is passed only to the following service providers, as far as needed to operate the website:</p>
+  <ul>
+    <li>Netlify, Inc. (USA): hosting of the website and processing of form submissions</li>
+    <li>
+      Google (Gmail): the Forma Studio email inbox for inquiries sent by email and, if set up, for notifications about
+      form submissions
+    </li>
+  </ul>
+
+  <h2>Data transfers abroad</h2>
+  <p>
+    Netlify and Google are US providers and operate servers in various countries. Personal data may therefore also be
+    processed outside Switzerland, in particular in the USA.
+  </p>
+
+  <h2>Cookies, analytics and tracking</h2>
+  <p>
+    This website currently sets no cookies and uses no analytics or tracking services. Fonts and images are loaded
+    directly from this website and not from external providers.
+  </p>
+
+  <h2>External links</h2>
+  <p>
+    The website contains links to the demo websites of the concept projects. These open as separate websites in a new
+    tab.
+  </p>
+
+  <h2>Your rights</h2>
+  <p>
+    Within the scope of applicable data protection law, you can in particular request information about the data
+    processed about you, have incorrect data corrected, request the deletion of your data, and withdraw consent you have
+    given. An email to <a href={`mailto:${site.email}`}>{site.email}</a> is sufficient.
+  </p>
+  <p>
+    You may also contact the competent data protection supervisory authority. In Switzerland, this is the Federal Data
+    Protection and Information Commissioner (FDPIC).
+  </p>
+
+  <h2>Changes</h2>
+  <p>
+    This privacy policy may be updated if the website or the services used change. The version published here applies.
+  </p>
+
+  <h2>Last updated</h2>
+  <p>October 2026</p>
+</SimplePage>

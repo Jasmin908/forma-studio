@@ -1,0 +1,83 @@
+---
+import { useT, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const t = useT(Astro.props.lang);
+---
+
+<section class="section" id="why">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="eyebrow">{t.why.eyebrow}</p>
+      <h2 class="section-title">{t.why.title}</h2>
+      <p class="lead">{t.why.lead}</p>
+    </header>
+
+    <ul class="grid">
+      {
+        t.why.items.map((item, i) => (
+          <li class="card reveal" style={`--i:${i % 2}`}>
+            <span class="card__num" aria-hidden="true">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <h3>{item.name}</h3>
+            <p>{item.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .card {
+    display: grid;
+    align-content: start;
+    gap: 0.9rem;
+    padding: clamp(1.75rem, 4vw, 2.75rem);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-l);
+    transition:
+      border-color 0.3s,
+      background-color 0.3s;
+  }
+
+  .card:hover {
+    border-color: var(--teal);
+    background: rgba(44, 196, 192, 0.05);
+  }
+
+  .card__num {
+    margin-bottom: 0.75rem;
+    color: var(--teal);
+    font-size: 1.25rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  h3 {
+    font-size: clamp(1.375rem, 2.6vw, 1.875rem);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .card p {
+    max-width: 30rem;
+    color: var(--muted);
+  }
+
+  @media (max-width: 760px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

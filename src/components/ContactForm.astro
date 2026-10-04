@@ -1,0 +1,474 @@
+---
+// Contact form, delivered through Netlify Forms once the site is deployed.
+// Netlify detects the form at build time through the data-netlify attribute;
+// no API keys are involved. See README.md for the one-time email setup.
+import { useT, routes, type Lang } from '../i18n';
+import { site } from '../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useT(lang);
+const f = t.contact.form;
+const [consentBefore, consentAfter] = f.consent.split('{link}');
+const messages = {
+  ...f.errors,
+  failed: f.errors.failed.replace('{email}', site.email),
+  submit: f.submit,
+  sending: f.sending,
+};
+---
+
+<div class="form-wrap">
+  <form
+    class="form"
+    name={site.formName}
+    method="POST"
+    action={routes[lang].thanks}
+    data-netlify="true"
+    netlify-honeypot="bot-field"
+    data-contact-form
+    data-messages={JSON.stringify(messages)}
+  >
+    <input type="hidden" name="form-name" value={site.formName} />
+    <input type="hidden" name="subject" value={f.subject} />
+    <input type="hidden" name="language" value={lang} />
+
+    <p class="form__hint">{f.requiredHint}</p>
+
+    <p class="trap" aria-hidden="true">
+      <label>
+        {f.honeypot}
+        <input type="text" name="bot-field" tabindex="-1" autocomplete="off" />
+      </label>
+    </p>
+
+    <div class="field">
+      <label for="cf-name">{f.name} <span aria-hidden="true">*</span></label>
+      <input id="cf-name" name="name" type="text" autocomplete="name" required aria-describedby="cf-name-error" />
+      <p class="field__error" id="cf-name-error" data-error-for="name"></p>
+    </div>
+
+    <div class="field">
+      <label for="cf-email">{f.email} <span aria-hidden="true">*</span></label>
+      <input
+        id="cf-email"
+        name="email"
+        type="email"
+        autocomplete="email"
+        inputmode="email"
+        required
+        aria-describedby="cf-email-error"
+      />
+      <p class="field__error" id="cf-email-error" data-error-for="email"></p>
+    </div>
+
+    <div class="field field--full">
+      <label for="cf-company">{f.company} <span class="field__optional">({f.optional})</span></label>
+      <input id="cf-company" name="company" type="text" autocomplete="organization" />
+    </div>
+
+    <div class="field">
+      <label for="cf-service">{f.service} <span class="field__optional">({f.optional})</span></label>
+      <div class="select">
+        <select id="cf-service" name="service">
+          <option value="">{f.servicePlaceholder}</option>
+          {t.services.items.map((item) => <option value={item.name}>{item.name}</option>)}
+          <option value={f.serviceOther}>{f.serviceOther}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="cf-budget">{f.budget} <span class="field__optional">({f.optional})</span></label>
+      <div class="select">
+        <select id="cf-budget" name="budget">
+          <option value="">{f.servicePlaceholder}</option>
+          {f.budgetOptions.map((option) => <option value={option}>{option}</option>)}
+        </select>
+      </div>
+    </div>
+
+    <div class="field field--full">
+      <label for="cf-message">{f.message} <span aria-hidden="true">*</span></label>
+      <textarea
+        id="cf-message"
+        name="message"
+        rows="6"
+        required
+        minlength="10"
+        maxlength="5000"
+        aria-describedby="cf-message-hint cf-message-error"></textarea>
+      <p class="field__help" id="cf-message-hint">{f.messageHint}</p>
+      <p class="field__error" id="cf-message-error" data-error-for="message"></p>
+    </div>
+
+    <div class="field field--full">
+      <label class="check">
+        <input id="cf-consent" name="consent" type="checkbox" value="yes" required aria-describedby="cf-consent-error" />
+        <span>
+          {consentBefore}<a href={routes[lang].privacy}>{f.consentLink}</a>{consentAfter}
+          <span aria-hidden="true">*</span>
+        </span>
+      </label>
+      <p class="field__error" id="cf-consent-error" data-error-for="consent"></p>
+    </div>
+
+    <div class="form__foot field--full">
+      <button class="btn btn--primary" type="submit">{f.submit}</button>
+      <p class="form__status" role="alert" data-form-status></p>
+    </div>
+  </form>
+
+  <div class="success" role="status" tabindex="-1" hidden data-form-success>
+    <span class="success__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M5 12.5l4.5 4.5L19 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    </span>
+    <h3>{f.successTitle}</h3>
+    <p>{f.successText}</p>
+  </div>
+</div>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+
+  if (form) {
+    const msg = JSON.parse(form.dataset.messages!);
+    const status = form.querySelector<HTMLElement>('[data-form-status]')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const success = document.querySelector<HTMLElement>('[data-form-success]')!;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    const loadedAt = Date.now();
+    let sending = false;
+
+    type Field = HTMLInputElement | HTMLTextAreaElement;
+    const required = ['name', 'email', 'message', 'consent'].map(
+      (name) => form.elements.namedItem(name) as Field,
+    );
+
+    // Validation is handled here so messages appear next to each field.
+    form.noValidate = true;
+
+    const errorFor = (field: Field) => {
+      if (field instanceof HTMLInputElement && field.type === 'checkbox') {
+        return field.checked ? '' : msg.consent;
+      }
+      const value = field.value.trim();
+      if (!value) return msg[field.name];
+      if (field.name === 'email' && !emailPattern.test(value)) return msg.emailInvalid;
+      if (field.name === 'message' && value.length < 10) return msg.messageShort;
+      return '';
+    };
+
+    const validate = (field: Field) => {
+      const error = errorFor(field);
+      const target = form.querySelector<HTMLElement>(`[data-error-for="${field.name}"]`)!;
+      target.textContent = error;
+      field.toggleAttribute('aria-invalid', Boolean(error));
+      return !error;
+    };
+
+    const setStatus = (text: string, kind: 'error' | 'info' | '' = '') => {
+      status.textContent = text;
+      status.dataset.kind = kind;
+    };
+
+    required.forEach((field) => {
+      field.addEventListener('blur', () => validate(field));
+      field.addEventListener('input', () => {
+        if (field.hasAttribute('aria-invalid')) validate(field);
+      });
+    });
+
+    // Links such as "Anfragen" in the price list carry data-service and
+    // preselect that service before the page scrolls to the form.
+    const service = form.elements.namedItem('service') as HTMLSelectElement;
+    document.querySelectorAll<HTMLElement>('[data-service]').forEach((link) => {
+      link.addEventListener('click', () => {
+        service.value = link.dataset.service!;
+      });
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (sending) return;
+
+      const invalid = required.filter((field) => !validate(field));
+      if (invalid.length) {
+        setStatus(msg.summary, 'error');
+        invalid[0].focus();
+        return;
+      }
+
+      // Spam protection: hidden field that only bots fill in, plus a minimum time on the page.
+      const trap = form.elements.namedItem('bot-field') as HTMLInputElement;
+      if (trap.value) return;
+      if (Date.now() - loadedAt < 3000) {
+        setStatus(msg.tooFast, 'error');
+        return;
+      }
+
+      // Netlify Forms only exists on the deployed site. In the local preview
+      // nothing is sent, and no success message is shown.
+      if (['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)) {
+        setStatus(msg.local, 'info');
+        return;
+      }
+
+      sending = true;
+      button.disabled = true;
+      button.textContent = msg.sending;
+      setStatus('');
+
+      try {
+        const body = new URLSearchParams(new FormData(form) as unknown as Record<string, string>);
+        const response = await fetch(location.pathname, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: body.toString(),
+        });
+        if (!response.ok) throw new Error(`Status ${response.status}`);
+
+        // Clear the entries so nothing can be sent twice by accident.
+        form.reset();
+        button.textContent = msg.submit;
+        form.hidden = true;
+        success.hidden = false;
+        success.focus();
+      } catch {
+        setStatus(msg.failed, 'error');
+        sending = false;
+        button.disabled = false;
+        button.textContent = msg.submit;
+      }
+    });
+  }
+</script>
+
+<style>
+  .form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .form[hidden] {
+    display: none;
+  }
+
+  .form__hint {
+    grid-column: 1 / -1;
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+
+  .trap {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .field {
+    display: grid;
+    align-content: start;
+    gap: 0.45rem;
+  }
+
+  .field--full {
+    grid-column: 1 / -1;
+  }
+
+  label {
+    font-size: 0.9375rem;
+    font-weight: 500;
+  }
+
+  .field__optional {
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  input[type='text'],
+  input[type='email'],
+  select,
+  textarea {
+    width: 100%;
+    min-height: 3.25rem;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-s);
+    background: rgba(255, 255, 255, 0.04);
+    font-size: 1rem;
+    transition:
+      border-color 0.2s,
+      background-color 0.2s;
+  }
+
+  textarea {
+    min-height: 9rem;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  input:hover,
+  select:hover,
+  textarea:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+    border-color: transparent;
+    border-radius: var(--radius-s);
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  [aria-invalid] {
+    border-color: var(--danger) !important;
+  }
+
+  .select {
+    position: relative;
+  }
+
+  .select::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 1.1rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid var(--muted);
+    border-bottom: 2px solid var(--muted);
+    transform: translateY(-70%) rotate(45deg);
+    pointer-events: none;
+  }
+
+  select {
+    appearance: none;
+    padding-right: 2.75rem;
+    cursor: pointer;
+  }
+
+  select option {
+    background: var(--surface-2);
+    color: var(--text);
+  }
+
+  .field__help {
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+
+  .field__error {
+    color: var(--danger);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .field__error:empty {
+    display: none;
+  }
+
+  .check {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem;
+    align-items: start;
+    color: var(--muted);
+    font-weight: 400;
+    cursor: pointer;
+  }
+
+  .check input {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0.15rem 0 0;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+
+  .check a {
+    color: var(--text);
+    text-underline-offset: 3px;
+  }
+
+  .form__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .form__status {
+    flex: 1 1 16rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+  }
+
+  .form__status:empty {
+    display: none;
+  }
+
+  .form__status[data-kind='error'] {
+    color: var(--danger);
+  }
+
+  .form__status[data-kind='info'] {
+    color: var(--teal);
+  }
+
+  .success {
+    display: grid;
+    justify-items: start;
+    gap: 0.9rem;
+    padding-block: 1rem;
+  }
+
+  .success[hidden] {
+    display: none;
+  }
+
+  .success:focus {
+    outline: none;
+  }
+
+  .success__icon {
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  .success h3 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.1;
+  }
+
+  .success p {
+    color: var(--muted);
+  }
+
+  @media (max-width: 620px) {
+    .form {
+      grid-template-columns: 1fr;
+    }
+
+    .form__foot .btn {
+      width: 100%;
+    }
+  }
+</style>
