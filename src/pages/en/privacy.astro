@@ -3,108 +3,74 @@ import SimplePage from '../../components/SimplePage.astro';
 import { site } from '../../data/site';
 ---
 
-<SimplePage lang="en" route="privacy" title="Privacy policy">
+<SimplePage lang="en" route="privacy" title="Privacy Policy">
   <p>
-    This privacy policy explains which personal data is processed when you visit this website and when you send an
-    inquiry through the contact form, for what purpose, and which rights you have.
+    Protecting your personal data is important to me. This page explains what information may be processed when you
+    visit this website or contact Forma Studio and how that information is used.
   </p>
 
-  <h2>Controller</h2>
+  <h2>Responsible party</h2>
   <p>
     Forma Studio<br />
     Switzerland<br />
-    Email: <a href={`mailto:${site.email}`}>{site.email}</a>
+    <a href={`mailto:${site.email}`}>{site.email}</a>
   </p>
-  <p>For any question about data protection, an email to this address is sufficient.</p>
+  <p>If you have any questions about data protection, you can email Forma Studio at any time.</p>
 
-  <h2>Which data is processed</h2>
-  <ul>
-    <li>Details you provide yourself through the contact form or by email</li>
-    <li>Technical connection data that arises at the hosting provider when the website is accessed</li>
-  </ul>
-
-  <h2>Contact form</h2>
-  <p>When the contact form is submitted, the following details are transmitted:</p>
-  <ul>
-    <li>Name</li>
-    <li>Email address</li>
-    <li>Business (optional)</li>
-    <li>Service required (optional)</li>
-    <li>Budget range (optional)</li>
-    <li>Project description</li>
-    <li>Confirmation of consent and the language version of the website used</li>
-  </ul>
+  <h2>Contacting Forma Studio</h2>
   <p>
-    The details are transmitted through the form service of the hosting provider Netlify and stored there. If email
-    notifications are set up, submissions may additionally be forwarded to Forma Studio by email. Submissions are
-    checked automatically to protect against spam; Netlify uses the spam-filtering service Akismet for this.
+    When you contact Forma Studio through the contact form or by email, the information you provide is processed in
+    order to answer your inquiry and prepare a possible collaboration.
+  </p>
+  <p>
+    The contact form can be used to send, in particular, your name, email address, business, the service you are
+    interested in, your budget range and information about your project. Some of these details are optional.
+  </p>
+  <p>
+    Inquiries are kept only for as long as needed to handle them or for any business relationship that results. Legal
+    retention requirements remain reserved.
   </p>
 
-  <h2>Purpose of processing</h2>
+  <h2>Hosting and technical data</h2>
   <p>
-    The details from the contact form are used to process and answer your inquiry and, if a collaboration results from
-    it, to prepare and carry out the project. They are not used for advertising and are not sold.
+    This website is delivered through Netlify. When you visit the website, technically necessary data may be processed,
+    such as your IP address, the time of access, the page requested and information about your browser and operating
+    system. This processing keeps the website running securely and reliably.
+  </p>
+  <p>
+    The contact form is also processed through Netlify and form submissions are stored there. To protect against spam,
+    Netlify uses the Akismet spam-filtering service.
+  </p>
+  <p>Email inquiries and notifications about form submissions may be processed through the Forma Studio Gmail inbox.</p>
+  <p>
+    Because Netlify and Google are international providers based in the USA, data may also be processed outside
+    Switzerland.
   </p>
 
-  <h2>Retention</h2>
+  <h2>Cookies and analytics</h2>
   <p>
-    Contact inquiries are retained only for as long as necessary to process the inquiry. If a business relationship
-    results from the inquiry, the data is retained for as long as necessary for that relationship and the applicable
-    legal retention obligations.
+    Forma Studio currently uses no analytics or tracking services and does not itself set any cookies for analytics or
+    advertising purposes. Fonts and images are served directly by this website.
   </p>
 
-  <h2>Hosting with Netlify</h2>
+  <h2>Sharing of data</h2>
   <p>
-    This website is hosted by Netlify, Inc. (USA). When the website is accessed, Netlify as the hosting provider
-    processes technically necessary connection data. This may include in particular the IP address, the date and time of
-    access, the page requested, and details of the browser and operating system. This data is required to operate and
-    secure the website.
-  </p>
-
-  <h2>Recipients and service providers</h2>
-  <p>Personal data is passed only to the following service providers, as far as needed to operate the website:</p>
-  <ul>
-    <li>Netlify, Inc. (USA): hosting of the website and processing of form submissions</li>
-    <li>
-      Google (Gmail): the Forma Studio email inbox for inquiries sent by email and, if set up, for notifications about
-      form submissions
-    </li>
-  </ul>
-
-  <h2>Data transfers abroad</h2>
-  <p>
-    Netlify and Google are US providers and operate servers in various countries. Personal data may therefore also be
-    processed outside Switzerland, in particular in the USA.
-  </p>
-
-  <h2>Cookies, analytics and tracking</h2>
-  <p>
-    This website currently sets no cookies and uses no analytics or tracking services. Fonts and images are loaded
-    directly from this website and not from external providers.
-  </p>
-
-  <h2>External links</h2>
-  <p>
-    The website contains links to the demo websites of the concept projects. These open as separate websites in a new
-    tab.
+    Personal data is not sold or used for third-party advertising. It is shared with service providers only as far as
+    needed to operate the website and handle inquiries.
   </p>
 
   <h2>Your rights</h2>
   <p>
-    Within the scope of applicable data protection law, you can in particular request information about the data
-    processed about you, have incorrect data corrected, request the deletion of your data, and withdraw consent you have
-    given. An email to <a href={`mailto:${site.email}`}>{site.email}</a> is sufficient.
+    Within the scope of applicable data protection law, you can in particular request information about the personal
+    data stored about you and ask for it to be corrected or deleted. Consent you have given can be withdrawn under the
+    conditions set out by law.
   </p>
   <p>
-    You may also contact the competent data protection supervisory authority. In Switzerland, this is the Federal Data
-    Protection and Information Commissioner (FDPIC).
+    To do so, simply write to <a href={`mailto:${site.email}`}>{site.email}</a>. You may also contact the Swiss Federal
+    Data Protection and Information Commissioner (FDPIC).
   </p>
 
   <h2>Changes</h2>
-  <p>
-    This privacy policy may be updated if the website or the services used change. The version published here applies.
-  </p>
-
-  <h2>Last updated</h2>
-  <p>October 2026</p>
+  <p>This privacy policy may be updated if the website or the services used change.</p>
+  <p>Last updated: October 2026</p>
 </SimplePage>
